@@ -1,21 +1,15 @@
 {
-    "name": "yiiplus/yii2-storage",
-    "description": "YiiPlus Storage",
-    "keywords": ["yii2", "storage"],
-    "homepage": "https://github.com/yiiplus/",
-    "type": "yii2-extension",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiiplus/yii2-storage/issues",
-        "source": "https://github.com/yiiplus/yii2-storage"
-    },
+    "name": "vender/zhangxu",
+    "description": "123333",
+    "type": "project",
+    "license": "d",
     "authors": [
         {
-            "name": "Hongbin Chen",
-            "email": "hongbin.chen@aliyun.com"
+            "name": "zhangxu",
+            "email": "zhangxu@himoca.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "beta",
     "require": {
         "php": ">=7.1.0",
         "yiisoft/yii2": "^2.0.0",
@@ -24,24 +18,19 @@
         "xxtime/flysystem-aliyun-oss": "^1.2",
         "freyo/flysystem-qcloud-cos-v5": "^1.4"
     },
-    "require-dev": {
-        "yiisoft/yii2-codeception": "^2.0.0",
-        "phpunit/phpunit": "~4.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "yiiplus\\storage\\": ""
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "yiiplus\\storage\\": ""
-        }
-    },
-    "repositories": {
-        "packagist": {
+    "repositories": [
+        {
             "type": "composer",
             "url": "http://packagist.yiiplus.com"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "yiiplus\\storage\\": ""
         }
     }
 }
