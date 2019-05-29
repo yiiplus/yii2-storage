@@ -17,7 +17,7 @@
         "blueimp/jquery-file-upload": "^9.31",
         "xxtime/flysystem-aliyun-oss": "^1.2",
         "freyo/flysystem-qcloud-cos-v5": "^1.4",
-        "bower-asset/jquery": "*"
+        "fxp/composer-asset-plugin": "~1.0.3"
     },
     "repositories": [
         {
