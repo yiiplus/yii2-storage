@@ -16,8 +16,7 @@
         "league/flysystem": "^1.0",
         "blueimp/jquery-file-upload": "^9.31",
         "xxtime/flysystem-aliyun-oss": "^1.2",
-        "freyo/flysystem-qcloud-cos-v5": "^1.4",
-        "fxp/composer-asset-plugin": "~1.0.3"
+        "freyo/flysystem-qcloud-cos-v5": "^1.4"
     },
     "repositories": [
         {
