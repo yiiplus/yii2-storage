@@ -22,10 +22,6 @@
         {
             "type": "composer",
             "url": "http://packagist.yiiplus.com"
-        },
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
         }
     ],
     "autoload": {
