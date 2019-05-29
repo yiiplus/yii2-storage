@@ -1,8 +1,8 @@
 {
-    "name": "vender/zhangxu",
-    "description": "123333",
+    "name": "yiiplus/yii2-storage",
+    "description": "YiiPlus Storage",
     "type": "project",
-    "license": "d",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "zhangxu",
