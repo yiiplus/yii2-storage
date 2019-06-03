@@ -77,6 +77,8 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
     ]
 ],
 ```
+
+# 后台上传
 ## 动作
 | 可选动作 | 说明 |
 | ----- | ----- |
@@ -236,7 +238,7 @@ echo $form->field($model, 'files')->widget(
 ```
 
 
-## API
+# API
 - 文件方式
 
 ```php
