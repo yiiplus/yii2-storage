@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage\filesystem;
 
 use League\Flysystem\Adapter\Local;
@@ -8,29 +18,30 @@ use yii\base\Component;
 use Xxtime\Flysystem\Aliyun\OssAdapter;
 
 /**
- * Class LocalFilesystemBuilder
- * @author Eugene Terentev <eugene@terentev.net>*
+ * OssFilesystemBuilder 阿里云文件系统
  *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class OssFilesystemBuilder extends BaseObject implements \yiiplus\storage\filesystem\FilesystemBuilderInterface
 {
-    /*
-     * 密钥id
+    /**
+     * @var 密钥id
      */
     public $accessId;
 
-    /*
-     * 密钥secret
+    /**
+     * @var 密钥secret
      */
     public $accessSecret;
 
-    /*
-     * 桶名
+    /**
+     * @var 桶名
      */
     public $bucket;
 
-    /*
-     * 节点
+    /**
+     * @var 节点
      */
     public $endpoint;
 
@@ -44,10 +55,6 @@ class OssFilesystemBuilder extends BaseObject implements \yiiplus\storage\filesy
             'access_secret'   => $this->accessSecret,
             'bucket'         => $this->bucket,
             'endpoint'       => $this->endpoint,
-            // 'timeout'        => 3600,
-            // 'connectTimeout' => 10,
-            // 'isCName'        => false,
-            // 'token'          => '',
         ]);
         $filesystem = new Filesystem($adapter);
         return $filesystem;

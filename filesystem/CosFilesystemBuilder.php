@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage\filesystem;
 
 use League\Flysystem\Adapter\Local;
@@ -9,40 +19,40 @@ use Freyo\Flysystem\QcloudCOSv5\Adapter;
 use Qcloud\Cos\Client;
 
 /**
- * 腾讯云上传
+ * CosFilesystemBuilder cos文件系统
  *
- * Class CosFilesystemBuilder
- * @package yiiplus\storage\filesystem
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class CosFilesystemBuilder extends BaseObject implements \yiiplus\storage\filesystem\FilesystemBuilderInterface
 {
-    /*
-     * 秘钥id
+    /**
+     * @var 秘钥id
      */
     public $secretId;
 
-    /*
-     * appId
+    /**
+     * @var appId
      */
     public $appId;
 
-    /*
-     * 秘钥key
+    /**
+     * @var 秘钥key
      */
     public $secretKey;
 
-    /*
-     * host
+    /**
+     * @var host
      */
     public $host;
 
-    /*
-     * 地区
+    /**
+     * @var 地区
      */
     public $region;
 
-    /*
-     * 桶名
+    /**
+     * @var 桶名
      */
     public $bucket;
 

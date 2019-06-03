@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage;
 
 use Yii;
@@ -10,55 +20,57 @@ use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 
 /**
- * Class Storage
- * @package yiiplus\storage
+ * Storage 文件上传核心类
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class Storage extends Component
 {
-    /*
+    /**
      * 删除前事件
      */
     const EVENT_BEFORE_DELETE = 'beforeDelete';
 
-    /*
+    /**
      * 保存前事件
      */
     const EVENT_BEFORE_SAVE = 'beforeSave';
 
-    /*
+    /**
      * 删除后事件
      */
     const EVENT_AFTER_DELETE = 'afterDelete';
 
-    /*
+    /**
      * 保存后事件
      */
     const EVENT_AFTER_SAVE = 'afterSave';
 
-    /*
-     * 文件域名
+    /**
+     * @var 文件域名
      */
     public $baseUrl;
 
-    /*
-     * 文件系统组件
+    /**
+     * @var 文件系统组件
      */
     public $filesystemComponent;
 
-    /*
-     * 文件系统
+    /**
+     * @var 文件系统
      */
     protected $filesystem;
 
-    /*
-     * 目录最大文件数 -1无限制
+    /**
+     * @var int 目录最大文件数 -1无限制
      */
     public $maxDirFiles = 65535;
 
-    /*
-     * 文件索引
+    /**
+     * @var int 文件索引
      */
-    private $dirindex = 1;
+    private $_dirindex = 1;
 
     /**
      * 初始化
@@ -197,13 +209,6 @@ class Storage extends Component
     }
 
     /**
-     * @param $files array|\yii\web\UploadedFile[]
-     * @param bool $preserveFileName
-     * @param bool $overwrite
-     * @param array $config
-     * @return array
-     */
-    /**
      * 批量保存
      *
      * @param file   $file             上传文件
@@ -275,19 +280,19 @@ class Storage extends Component
         }
 
         if (!$this->getFilesystem()->has($normalizedPath)) {
-            $this->getFilesystem()->write($normalizedPath, (string) $this->dirindex);
+            $this->getFilesystem()->write($normalizedPath, (string) $this->_dirindex);
         } else {
-            $this->dirindex = $this->getFilesystem()->read($normalizedPath);
+            $this->_dirindex = $this->getFilesystem()->read($normalizedPath);
             if ($this->maxDirFiles !== -1) {
-                $filesCount = count($this->getFilesystem()->listContents($this->dirindex));
+                $filesCount = count($this->getFilesystem()->listContents($this->_dirindex));
                 if ($filesCount > $this->maxDirFiles) {
-                    $this->dirindex++;
-                    $this->getFilesystem()->put($normalizedPath, (string) $this->dirindex);
+                    $this->_dirindex++;
+                    $this->getFilesystem()->put($normalizedPath, (string) $this->_dirindex);
                 }
             }
         }
 
-        return $this->dirindex;
+        return $this->_dirindex;
     }
 
     /**

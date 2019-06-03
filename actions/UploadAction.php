@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage\actions;
 
 use League\Flysystem\FilesystemInterface;
@@ -12,85 +22,90 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
-* Class UploadAction
-* public function actions(){
-*   return [
-*           'upload'=>[
-*               'class'=>'yiiplus\storage\actions\UploadAction',
-*           ]
-*       ];
-*   }
-*/
+ * UploadAction 上传动作
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
+ */
 class UploadAction extends BaseAction
 {
-
+    /**
+     * 保存后事件
+     */
     const EVENT_AFTER_SAVE = 'afterSave';
 
     /**
-     * @var string
+     * @var string 文件参数
      */
     public $fileparam = 'file';
 
     /**
-     * @var bool
+     * @var bool 多个上传
      */
     public $multiple = true;
 
     /**
-     * @var bool
+     * @var bool 禁用csrf
      */
     public $disableCsrf = true;
 
     /**
-     * @var string
+     * @var string 返回数据格式
      */
     public $responseFormat = Response::FORMAT_JSON;
+
     /**
-     * @var string
+     * @var string 返回路径
      */
     public $responsePathParam = 'path';
+
     /**
-     * @var string
+     * @var string 返回基础地址
      */
     public $responseBaseUrlParam = 'base_url';
+
     /**
-     * @var string
+     * @var string 返回地址
      */
     public $responseUrlParam = 'url';
+
     /**
-     * @var string
+     * @var string 返回删除地址
      */
     public $responseDeleteUrlParam = 'delete_url';
+
     /**
-     * @var string
+     * @var string 返回类型
      */
     public $responseMimeTypeParam = 'type';
+
     /**
-     * @var string
+     * @var string 返回名称
      */
     public $responseNameParam = 'name';
+
     /**
-     * @var string
+     * @var string 返回大小
      */
     public $responseSizeParam = 'size';
+
     /**
-     * @var string
+     * @var string 删除路由
      */
     public $deleteRoute = 'delete';
 
     /**
-     * @var array
-     * @see https://github.com/yiisoft/yii2/blob/master/docs/guide/input-validation.md#ad-hoc-validation-
+     * @var 校验规则
      */
     public $validationRules;
 
     /**
-     * @var string path where files would be stored
+     * @var string 存储路径
      */
     public $uploadPath = '';
 
     /**
-     *
+     * 初始化
      */
     public function init()
     {
@@ -160,7 +175,7 @@ class UploadAction extends BaseAction
     }
 
     /**
-     * @param $path
+     * @param string $path 保存路径
      */
     public function afterSave($path)
     {
@@ -176,6 +191,13 @@ class UploadAction extends BaseAction
         ]));
     }
 
+    /**
+     * 返回异常信息
+     *
+     * @param string $value 异常常量
+     *
+     * @return bool|null|string
+     */
     protected function resolveErrorMessage($value)
     {
         switch ($value) {

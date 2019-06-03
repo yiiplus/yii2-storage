@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage;
 
 use yii\base\InvalidConfigException;
@@ -8,47 +18,52 @@ use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
- * Class File
- * @package yiiplus\storage
- * @author Eugene Terentev <eugene@terentev.net>
+ * File 文件处理
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class File extends BaseObject
 {
     /**
-     * @var
+     * @var 文件路径
      */
     protected $path;
+
     /**
-     * @var
+     * @var 文件扩展
      */
     protected $extension;
+
     /**
-     * @var
+     * @var 文件大小
      */
     protected $size;
+
     /**
-     * @var
+     * @var 文件类型
      */
     protected $mimeType;
 
     /**
-     * @var
+     * @var 路径信息
      */
     protected $pathinfo;
 
     /**
+     * 上传文件
+     *
      * @param $file string|\yii\web\UploadedFile
      * @return self
      * @throws InvalidConfigException
      */
     public static function create($file)
     {
-
         if (is_a($file, self::className())) {
             return $file;
         }
 
-        // UploadedFile
+        //上传文件
         if (is_a($file, UploadedFile::className())) {
             if ($file->error) {
                 throw new InvalidParamException("File upload error \"{$file->error}\"");
@@ -58,8 +73,7 @@ class File extends BaseObject
                 'path'=>$file->tempName,
                 'extension'=>$file->getExtension()
             ]);
-        } // Path
-        else {
+        } else {
             return \Yii::createObject([
                 'class' => self::className(),
                 'path' => FileHelper::normalizePath($file)
@@ -68,7 +82,9 @@ class File extends BaseObject
     }
 
     /**
-     * @param array $files
+     * 上传多个文件
+     *
+     * @param array $files 文件数组
      * @return self[]
      * @throws \yii\base\InvalidConfigException
      */
@@ -82,6 +98,8 @@ class File extends BaseObject
     }
 
     /**
+     * 初始化
+     *
      * @throws InvalidConfigException
      */
     public function init()
@@ -92,6 +110,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取文件路径
+     *
      * @return mixed
      */
     public function getPath()
@@ -100,6 +120,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取文件大小
+     *
      * @return mixed
      */
     public function getSize()
@@ -111,6 +133,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取文件类型
+     *
      * @return string
      * @throws InvalidConfigException
      */
@@ -123,6 +147,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取文件扩展
+     *
      * @return mixed|null
      */
     public function getExtension()
@@ -134,6 +160,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取文件类型
+     *
      * @return mixed
      */
     public function getExtensionByMimeType()
@@ -143,6 +171,8 @@ class File extends BaseObject
     }
 
     /**
+     * 获取路径信息
+     *
      * @param bool $part
      * @return mixed|null
      */
@@ -158,6 +188,8 @@ class File extends BaseObject
     }
 
     /**
+     * 设置路径
+     *
      * @param $path
      */
     public function setPath($path)
@@ -166,6 +198,8 @@ class File extends BaseObject
     }
 
     /**
+     * 设置扩展
+     *
      * @param $extension
      */
     public function setExtension($extension)
@@ -174,6 +208,8 @@ class File extends BaseObject
     }
 
     /**
+     * 是否发生错误
+     *
      * @return bool
      */
     public function hasErrors()

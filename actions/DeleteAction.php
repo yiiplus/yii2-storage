@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: zein
- * Date: 7/13/14
- * Time: 1:20 PM
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
  */
 
 namespace yiiplus\storage\actions;
@@ -14,26 +17,23 @@ use yiiplus\storage\events\UploadEvent;
 use League\Flysystem\File as FlysystemFile;
 
 /**
- * public function actions(){
- *   return [
- *           'upload'=>[
- *               'class'=>'yiiplus\storage\actions\DeleteAction',
- *               'on afterDelete' => function($event) {
- *                   $file = $event->file;
- *                   $thumb_path = Yii::getAlias('@storage/web/source/thumb/') . $file->getPath();
- *                   unlink($thumb_path);
- *              }
- *           ]
- *       ];
- *   }
+ * DeleteAction 删除动作
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class DeleteAction extends BaseAction
 {
-    const EVENT_AFTER_DELETE = 'afterDelete';
     /**
-     * @var string path request param
+     * 删除后事件
+     */
+    const EVENT_AFTER_DELETE = 'afterDelete';
+
+    /**
+     * @var string 路径参数
      */
     public $pathParam = 'path';
+
     /**
      * @return bool
      * @throws HttpException
@@ -57,7 +57,9 @@ class DeleteAction extends BaseAction
     }
     
     /**
-     * @param $path
+     * 删除后事件
+     *
+     * @param string $path 删除文件路径
      */
     public function afterDelete($path)
     {

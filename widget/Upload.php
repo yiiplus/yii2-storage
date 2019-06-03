@@ -1,6 +1,12 @@
 <?php
 /**
- * Author: Eugine Terentev <eugine@terentev.net>
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
  */
 
 namespace yiiplus\storage\widget;
@@ -15,22 +21,28 @@ use yii\jui\JuiAsset;
 use yii\widgets\InputWidget;
 
 /**
- * Class Upload
- * @package yiiplus\storage\widget
+ * Upload 上传
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class Upload extends InputWidget
 {
-
     /**
-     * Avaible errors handlers
+     * yii错误句柄
      */
     const YII_ERROR_HANDLER = 'yii';
+
+    /**
+     * popover错误句柄
+     */
     const POPOVER_ERROR_HANDLER = 'popover';
 
     /**
-     * @var
+     * @var 文件
      */
     public $files;
+
     /**
      * @var array|\ArrayObject
      */
@@ -45,48 +57,59 @@ class Upload extends InputWidget
      * @var array
      */
     public $clientOptions = [];
+
     /**
      * @var bool
      */
     public $showPreviewFilename = false;
+
     /**
      * @var bool
      */
     public $multiple = false;
+
     /**
      * @var bool
      */
     public $sortable = false;
+
     /**
      * @var int min file size in bytes
      */
     public $minFileSize;
+
     /**
      * @var int
      */
     public $maxNumberOfFiles = 1;
+
     /**
      * @var int max file size in bytes
      */
     public $maxFileSize;
+
     /**
      * @var string regexp
      */
     public $acceptFileTypes;
+
     /**
      * @var string
      */
     public $messagesCategory = 'filekit/widget';
+
     /**
      * @var bool preview image file or not in the upload box.
      */
     public $previewImage = true;
+
     /**
      * custom hiddenInput id，if not set $this->options['id'] will be use.
      * useful if use name,value
      * @var null|string
      */
     public $hiddenInputId = null;
+
     /**
      * Client error handler.
      * For using yiiActiveForm set to 'yii'
@@ -163,6 +186,8 @@ class Upload extends InputWidget
     }
 
     /**
+     * 注册信息
+     *
      * @return void Registers widget translations
      */
     protected function registerMessages()
@@ -180,6 +205,8 @@ class Upload extends InputWidget
     }
 
     /**
+     * 获取文件名称
+     *
      * @return string
      */
     public function getFileInputName()
@@ -188,6 +215,8 @@ class Upload extends InputWidget
     }
 
     /**
+     * 执行
+     *
      * @return string
      */
     public function run()
@@ -208,6 +237,8 @@ class Upload extends InputWidget
     }
 
     /**
+     * 注册客户端脚本
+     *
      * Registers required script for the plugin to work as jQuery File Uploader
      */
     public function registerClientScript()
@@ -221,6 +252,8 @@ class Upload extends InputWidget
     }
 
     /**
+     * 添加校验
+     *
      * Adding attribute to yiiActiveForm validator
      */
     public function addFieldValidator()

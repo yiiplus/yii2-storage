@@ -1,4 +1,14 @@
 <?php
+/**
+ * yiiplus/yii2-desktop
+ *
+ * @category  PHP
+ * @package   Yii2
+ * @copyright 2018-2019 YiiPlus Ltd
+ * @license   https://github.com/yiiplus/yii2-desktop/licence.txt Apache 2.0
+ * @link      http://www.yiiplus.com
+ */
+
 namespace yiiplus\storage\behaviors;
 
 use yiiplus\storage\Storage;
@@ -9,63 +19,78 @@ use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class UploadBehavior
- * @author Eugene Terentev <eugene@terentev.net>
+ * UploadBehavior 上传动作
+ *
+ * @author Zhang Xu <zhangxu@himoca.com>
+ * @since 2.0.0
  */
 class UploadBehavior extends Behavior
 {
     /**
-     * @var ActiveRecord
+     * @var 拥有者
      */
     public $owner;
 
     /**
-     * @var string Model attribute that contain uploaded file information
-     * or array of files information
+     * @var string 字段名
      */
     public $attribute = 'file';
 
     /**
-     * @var bool
+     * @var bool 多个文件上传
      */
     public $multiple = false;
 
     /**
-     * @var
+     * @var string prefix
      */
     public $attributePrefix;
 
-    public $attributePathName = 'path';
-    public $attributeBaseUrlName = 'base_url';
     /**
-     * @var string
+     * @var string 地址
+     */
+    public $attributePathName = 'path';
+
+    /**
+     * @var string 文件基础地址
+     */
+    public $attributeBaseUrlName = 'base_url';
+
+    /**
+     * @var string 路径
      */
     public $pathAttribute;
+
     /**
-     * @var string
+     * @var string 基础路径字段
      */
     public $baseUrlAttribute;
+
     /**
-     * @var string
+     * @var string 类型
      */
     public $typeAttribute;
+
     /**
-     * @var string
+     * @var string 大小
      */
     public $sizeAttribute;
+
     /**
-     * @var string
+     * @var string 名称
      */
     public $nameAttribute;
+
     /**
-     * @var string
+     * @var string 订单
      */
     public $orderAttribute;
 
     /**
-     * @var string name of the relation
+     * @var string 上传关系
      */
     public $uploadRelation;
+
     /**
      * @var $uploadModel
      * Schema example:
@@ -79,8 +104,9 @@ class UploadBehavior extends Behavior
      *      `foreign_key_id` INT NOT NULL,
      */
     public $uploadModel;
+
     /**
-     * @var string
+     * @var string 上传场景
      */
     public $uploadModelScenario = 'default';
 
@@ -91,14 +117,18 @@ class UploadBehavior extends Behavior
     public $filesStorage = 'fileStorage';
 
     /**
-     * @var array
+     * @var array 删除路径
      */
     protected $deletePaths;
+
     /**
      * @var \yiiplus\storage\Storage
      */
     protected $storage;
+
     /**
+     * 事件
+     *
      * @return array
      */
     public function events()
@@ -124,6 +154,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 规则
+     *
      * @return array
      */
     public function fields()
@@ -147,6 +179,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 验证后
+     *
      * @return void
      */
     public function afterValidateSingle()
@@ -155,6 +189,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 插入后事件
+     *
      * @return void
      */
     public function afterInsertMultiple()
@@ -165,6 +201,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 更新后事件
+     *
      * @throws \Exception
      */
     public function afterUpdateMultiple()
@@ -191,6 +229,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 更新前
+     *
      * @return void
      */
     public function beforeUpdateSingle()
@@ -199,6 +239,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 更新后
+     *
      * @return void
      */
     public function afterUpdateSingle()
@@ -210,6 +252,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 删除后
+     *
      * @return void
      */
     public function beforeDeleteMultiple()
@@ -218,6 +262,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 删除前
+     *
      * @return void
      */
     public function beforeDeleteSingle()
@@ -226,6 +272,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 删除后
+     *
      * @return void
      */
     public function afterDelete()
@@ -235,6 +283,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 查询后
+     *
      * @return void
      */
     public function afterFindMultiple()
@@ -259,6 +309,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 查询后
+     *
      * @return void
      */
     public function afterFindSingle()
@@ -275,6 +327,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 获取上传模型
+     *
      * @return string
      */
     public function getUploadModelClass()
@@ -286,6 +340,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 保存文件关系
+     *
      * @param array $files
      */
     protected function saveFilesToRelation($files)
@@ -303,6 +359,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 更新文件关系
+     *
      * @param array $files
      */
     protected function updateFilesInRelation($files)
@@ -319,6 +377,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 获取上传
+     *
      * @return \yiiplus\storage\Storage
      * @throws \yii\base\InvalidConfigException
      */
@@ -332,6 +392,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 获取已上传
+     *
      * @return array
      */
     protected function getUploaded()
@@ -341,6 +403,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 获取上传关系
+     *
      * @return \yii\db\ActiveQuery|\yii\db\ActiveQueryInterface
      */
     protected function getUploadRelation()
@@ -349,6 +413,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 加载模型
+     *
      * @param $model \yii\db\ActiveRecord
      * @param $data
      * @return \yii\db\ActiveRecord
@@ -365,6 +431,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 获取属性
+     *
      * @param $type
      * @return mixed
      */
@@ -374,6 +442,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 删除文件
+     *
      * @return bool|void
      */
     protected function deleteFiles()
@@ -388,6 +458,8 @@ class UploadBehavior extends Behavior
     }
 
     /**
+     * 丰富文件数据
+     *
      * @param $file
      * @return mixed
      */
