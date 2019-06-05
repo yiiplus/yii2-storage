@@ -44,8 +44,7 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'path' => '@root/web/backend/uploads/'    //上传路径
     ]
 ],
 ```
@@ -58,8 +57,11 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'path' => '@root/web/backend/uploads/'    //上传路径
+        'accessId' => '',  //密钥id
+        'accessSecret' => '', //密钥key
+        'bucket' => '', //桶名
+        'endpoint' => '' //节点
     ]
 ],
 ```
@@ -72,8 +74,12 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'path' => '@root/web/backend/uploads/'    //上传路径
+        'secretId' => '',//cos秘钥id
+        'secretKey' => '',//秘钥key
+        'bucket' => '',//桶名
+        'appId' => '',//appId
+        'region' => '',//地区
     ]
 ],
 ```
