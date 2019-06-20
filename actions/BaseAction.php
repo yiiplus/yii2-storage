@@ -51,11 +51,7 @@ abstract class BaseAction extends Action
      */
     protected function getFileStorage()
     {
-        if ($this->allowChangeFilestorage) {
-            $fileStorage = \Yii::$app->request->get($this->fileStorageParam);
-        } else {
-            $fileStorage = $this->fileStorage;
-        }
+        $fileStorage = $this->fileStorage;
         $fileStorage = Instance::ensure($fileStorage, Storage::className());
 
         return $fileStorage;

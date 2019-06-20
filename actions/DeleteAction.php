@@ -35,6 +35,8 @@ class DeleteAction extends BaseAction
     public $pathParam = 'path';
 
     /**
+     * 运行
+     *
      * @return bool
      * @throws HttpException
      * @throws \HttpException

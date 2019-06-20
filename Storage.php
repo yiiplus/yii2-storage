@@ -53,9 +53,9 @@ class Storage extends Component
     public $baseUrl;
 
     /**
-     * @var 文件系统组件
+     * @var string
      */
-    public $filesystemComponent;
+    public $basePath = '';
 
     /**
      * @var 文件系统
@@ -66,6 +66,11 @@ class Storage extends Component
      * @var int 目录最大文件数 -1无限制
      */
     public $maxDirFiles = 65535;
+
+    /**
+     * @var int 是否开启索引目录
+     */
+    public $openDirIndex = 0;
 
     /**
      * @var int 文件索引
@@ -83,13 +88,9 @@ class Storage extends Component
             $this->baseUrl = Yii::getAlias($this->baseUrl);
         }
 
-        if ($this->filesystemComponent !== null) {
-            $this->filesystem = Yii::$app->get($this->filesystemComponent);
-        } else {
-            $this->filesystem = Yii::createObject($this->filesystem);
-            if ($this->filesystem instanceof FilesystemBuilderInterface) {
-                $this->filesystem = $this->filesystem->build();
-            }
+        $this->filesystem = Yii::createObject($this->filesystem);
+        if ($this->filesystem instanceof FilesystemBuilderInterface) {
+            $this->filesystem = $this->filesystem->build();
         }
     }
 
@@ -128,7 +129,12 @@ class Storage extends Component
      */
     public function save($file, $pathPrefix = '', $preserveFileName = false, $overwrite = false, $config = [])
     {
-        $pathPrefix = FileHelper::normalizePath($pathPrefix);
+        if (empty($file)) {
+            return false;
+        }
+        $basePath = $this->basePath ? $this->basePath . DIRECTORY_SEPARATOR : '';
+        $pathPrefix = FileHelper::normalizePath($basePath . $pathPrefix);
+
         $fileObj = File::create($file);
         $dirIndex = $this->getDirIndex($pathPrefix);
 
@@ -138,12 +144,14 @@ class Storage extends Component
                     Yii::$app->security->generateRandomString(),
                     $fileObj->getExtension()
                 ]);
-                $implodeArr = !empty($pathPrefix) ? [$pathPrefix, $dirIndex, $filename] : [$dirIndex, $filename];
+                $pathArr = [$pathPrefix, $dirIndex, $filename];
+                $implodeArr = array_filter($pathArr);
                 $path = implode(DIRECTORY_SEPARATOR, $implodeArr);
             } while ($this->getFilesystem()->has($path));
         } else {
             $filename = $fileObj->getPathInfo('filename');
-            $implodeArr = !empty($pathPrefix) ? [$pathPrefix, $dirIndex, $filename] : [$dirIndex, $filename];
+            $pathArr = [$pathPrefix, $dirIndex, $filename];
+            $implodeArr = array_filter($pathArr);
             $path = implode(DIRECTORY_SEPARATOR, $implodeArr);
         }
 
@@ -163,48 +171,10 @@ class Storage extends Component
 
         if ($success) {
             $this->afterSave($path, $this->getFilesystem());
-            return $this->baseUrl . '/' . $path;
+
+            return DIRECTORY_SEPARATOR . $path;
         }
 
-        return false;
-    }
-
-    /**
-     * 上传base64文件
-     *
-     * @param string $data       base64格式图片
-     * @param string $pathPrefix 上传路径
-     * @param string $extension  扩展
-     *
-     * @return bool|string
-     * @throws InvalidConfigException
-     * @throws \yii\base\Exception
-     */
-    public function saveBase64($data, $pathPrefix = '', $extension = 'jpg')
-    {
-        if (empty($data)) {
-            return false;
-        }
-        $pathPrefix = FileHelper::normalizePath($pathPrefix);
-        $data = base64_decode(str_replace('data:image/png;base64,', '', $data));
-        $dirIndex = $this->getDirIndex($pathPrefix);
-
-        do {
-            $filename = implode('.', [
-                Yii::$app->security->generateRandomString(),
-                $extension
-            ]);
-            $implodeArr = !empty($pathPrefix) ? [$pathPrefix, $dirIndex, $filename] : [$dirIndex, $filename];
-            $path = implode(DIRECTORY_SEPARATOR, $implodeArr);
-        } while ($this->getFilesystem()->has($path));
-
-        $this->beforeSave($path, $this->getFilesystem());
-
-        $success = $this->getFilesystem()->write($path, $data);
-        if ($success) {
-            $this->afterSave($path, $this->getFilesystem());
-            return $this->baseUrl . '/' . $path;
-        }
         return false;
     }
 
@@ -266,7 +236,7 @@ class Storage extends Component
     }
 
     /**
-     * 获取文件索引
+     * 获取文件存储子目录
      *
      * @param string $path 文件路径
      *
@@ -274,6 +244,10 @@ class Storage extends Component
      */
     protected function getDirIndex($path = '')
     {
+        //默认不开启索引
+        if ($this->openDirIndex == 0) {
+            return '';
+        }
         $normalizedPath = '.dirindex';
         if (isset($path)) {
             $normalizedPath = $path . DIRECTORY_SEPARATOR . '.dirindex';
@@ -310,6 +284,7 @@ class Storage extends Component
             'path' => $path,
             'filesystem' => $filesystem
         ]);
+
         $this->trigger(self::EVENT_BEFORE_SAVE, $event);
     }
 

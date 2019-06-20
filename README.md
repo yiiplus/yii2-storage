@@ -42,10 +42,11 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 'storage'=>[
 'class' => 'yiiplus\storage\Storage',
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
+'basePath' => 'image', //配置上传根目录
+'openDirIndex' => 1, //是否开启文件索引 可不配置
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'path' => '@root/web/backend/uploads/'    //上传路径
     ]
 ],
 ```
@@ -55,11 +56,14 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 ```php
 'storage'=>[
 'class' => 'yiiplus\storage\Storage',
+'basePath' => 'image', //配置上传根目录
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'accessId' => '',  //密钥id
+        'accessSecret' => '', //密钥key
+        'bucket' => '', //桶名
+        'endpoint' => '' //节点
     ]
 ],
 ```
@@ -69,11 +73,15 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
 ```php
 'storage'=>[
 'class' => 'yiiplus\storage\Storage',
+'basePath' => 'image', //配置上传根目录
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //配置参数
-        'serectId' => '111',    //配置参数
+        'secretId' => '',//cos秘钥id
+        'secretKey' => '',//秘钥key
+        'bucket' => '',//桶名
+        'appId' => '',//appId
+        'region' => '',//地区
     ]
 ],
 ```
@@ -103,7 +111,7 @@ public function actions(){
             'sessionKey' => '_uploadedFiles',
             'allowChangeFilestorage' => false,
             //校验规则
-            'validationRules' => [],
+            'validationRules' => [['file', 'integer']],
             //保存成功后处理
             'on afterSave' => function($event) {
                 $file = $event->file;
@@ -242,23 +250,10 @@ echo $form->field($model, 'files')->widget(
 - 文件方式
 
 ```php
-$storage = Yii::$app->fileStorage;
-$result = $storage->save($_FILES['images']['tmp_name']);
+$file = UploadedFile::getInstanceByName('file');
+$s = Yii::$app->storage;
+$result = $s->save($file, 'image');
+return Yii::$app->storage->baseUrl . $result;
 ```
-- base64方式
 
-```php
-$storage = Yii::$app->fileStorage;
-$result = $storage->saveBase64($_POST['images']);
-```
-- 返回示例
-
-```
-"name": "image_155624686549491009",
-"size": 0,
-"extension": "jpg",
-"url": "http://127.0.0.1:8080/attachment/images/2019/04/26/image_155624686549491009.jpg",
-"merge": false,
-"guid": "",
-"type": "image/jpeg"
-```
+修改可配置 可传参

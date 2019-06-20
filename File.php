@@ -68,6 +68,7 @@ class File extends BaseObject
             if ($file->error) {
                 throw new InvalidParamException("File upload error \"{$file->error}\"");
             }
+
             return \Yii::createObject([
                 'class'=>self::className(),
                 'path'=>$file->tempName,
@@ -156,6 +157,7 @@ class File extends BaseObject
         if ($this->extension === null) {
             $this->extension = $this->getPathInfo('extension');
         }
+
         return $this->extension;
     }
 

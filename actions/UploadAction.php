@@ -125,6 +125,8 @@ class UploadAction extends BaseAction
     }
 
     /**
+     * 运行
+     *
      * @return array
      * @throws \HttpException
      */
@@ -141,6 +143,7 @@ class UploadAction extends BaseAction
                 $this->responseSizeParam => $uploadedFile->size,
                 $this->responseBaseUrlParam =>  $this->getFileStorage()->baseUrl
             ];
+
             if ($uploadedFile->error === UPLOAD_ERR_OK) {
                 $validationModel = DynamicModel::validateData(['file' => $uploadedFile], $this->validationRules);
                 if (!$validationModel->hasErrors()) {
@@ -148,13 +151,12 @@ class UploadAction extends BaseAction
 
                     if ($path) {
                         $output[$this->responsePathParam] = $path;
-                        $output[$this->responseUrlParam] = $path;
+                        $output[$this->responseUrlParam] = $output[$this->responseBaseUrlParam] . $path;
                         $output[$this->responseDeleteUrlParam] = Url::to([$this->deleteRoute, 'path' => $path]);
                         $paths = \Yii::$app->session->get($this->sessionKey, []);
                         $paths[] = $path;
                         \Yii::$app->session->set($this->sessionKey, $paths);
                         $this->afterSave($path);
-
                     } else {
                         $output['error'] = true;
                         $output['errors'] = [];
@@ -171,6 +173,7 @@ class UploadAction extends BaseAction
 
             $result['files'][] = $output;
         }
+
         return $this->multiple ? $result : array_shift($result);
     }
 
