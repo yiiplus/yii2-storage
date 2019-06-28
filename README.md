@@ -21,14 +21,14 @@
 通过composer安装
 
 ```php
-php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.0.0"
+php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.1.0"
 ```
 或添加配置到项目目录下的composer.json
 
 ```
 "require": {
 ...
-"yiiplus/yii2-storage": "^1.0.0",
+"yiiplus/yii2-storage": "^1.1.0",
 ...
 }
 ```
@@ -235,7 +235,6 @@ echo $form->field($model, 'files')->widget(
 ```
 ### 上传Widget事件
 上传小部件会触发一些内置的blueimp事件：
-
 您可以直接使用它们，也可以在选项中添加自定义处理程序
 
 ```php
