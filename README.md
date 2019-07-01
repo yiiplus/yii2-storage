@@ -21,14 +21,14 @@
 通过composer安装
 
 ```php
-php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.1.0"
+composer require yiiplus/yii2-storage "^1.1.1"
 ```
 或添加配置到项目目录下的composer.json
 
 ```
 "require": {
 ...
-"yiiplus/yii2-storage": "^1.1.0",
+"yiiplus/yii2-storage": "^1.1.1",
 ...
 }
 ```
@@ -60,7 +60,6 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.1.0"
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //上传路径
         'accessId' => '',  //密钥id
         'accessSecret' => '', //密钥key
         'bucket' => '', //桶名
@@ -78,7 +77,6 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.1.0"
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
         'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
-        'path' => '@root/web/backend/uploads/'    //上传路径
         'secretId' => '',//cos秘钥id
         'secretKey' => '',//秘钥key
         'bucket' => '',//桶名
@@ -94,7 +92,6 @@ php composer.phar require --prefer-dist yiiplus/yii2-storage "^1.1.0"
 | ----- | ----- |
 | upload | 上传 |
 | delete | 删除 |
-| view | 下载 |
 
 ### 上传动作
 
@@ -111,9 +108,10 @@ public function actions(){
             //删除路由
             'deleteRoute' => 'delete',
             'sessionKey' => '_uploadedFiles',
-            'allowChangeFilestorage' => false,
+            //实例化的容器名
+            'fileStorage' => 'storage',
             //校验规则
-            'validationRules' => [['file', 'integer']],
+            'validationRules' => [],
             //保存成功后处理
             'on afterSave' => function($event) {
                 $file = $event->file;
@@ -135,17 +133,6 @@ public function actions(){
 }
 ```
 
-### 详情动作
-
-```php
-public function actions(){
-    return [
-        'view'=>[
-            'class'=>'yiiplus\storage\actions\ViewAction',
-        ]
-    ];
-}
-```
 
 ## 上传组件
 - 独立使用
@@ -233,6 +220,7 @@ echo $form->field($model, 'files')->widget(
     ]
 );
 ```
+
 ### 上传Widget事件
 上传小部件会触发一些内置的blueimp事件：
 您可以直接使用它们，也可以在选项中添加自定义处理程序
