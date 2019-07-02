@@ -21,14 +21,14 @@
 通过composer安装
 
 ```php
-composer require yiiplus/yii2-storage "^1.1.1"
+composer require yiiplus/yii2-storage "^1.1.2"
 ```
 或添加配置到项目目录下的composer.json
 
 ```
 "require": {
 ...
-"yiiplus/yii2-storage": "^1.1.1",
+"yiiplus/yii2-storage": "^1.1.2",
 ...
 }
 ```
@@ -59,7 +59,7 @@ composer require yiiplus/yii2-storage "^1.1.1"
 'basePath' => 'image', //配置上传根目录
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
-        'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
+        'class' => 'yiiplus\storage\filesystem\OssFilesystemBuilder',  //文件处理方式
         'accessId' => '',  //密钥id
         'accessSecret' => '', //密钥key
         'bucket' => '', //桶名
@@ -76,7 +76,7 @@ composer require yiiplus/yii2-storage "^1.1.1"
 'basePath' => 'image', //配置上传根目录
 'baseUrl' => '@web/uploads',  //本地用文件在项目存储目录 三方用可访问到文件的域名
 'filesystem'=> [
-        'class' => 'yiiplus\storage\filesystem\LocalFilesystemBuilder',  //文件处理方式
+        'class' => 'yiiplus\storage\filesystem\CosFilesystemBuilder',  //文件处理方式
         'secretId' => '',//cos秘钥id
         'secretKey' => '',//秘钥key
         'bucket' => '',//桶名
@@ -114,7 +114,7 @@ public function actions(){
             'validationRules' => [],
             //保存成功后处理
             'on afterSave' => function($event) {
-                $file = $event->file;
+                $file = $event->path;
             }
         ]
     ];
@@ -241,6 +241,6 @@ echo $form->field($model, 'files')->widget(
 ```php
 $file = UploadedFile::getInstanceByName('file');
 $s = Yii::$app->storage;
-$result = $s->save($file, 'image');
+$result = $s->save($file, 'avatar');
 return Yii::$app->storage->baseUrl . $result;
 ```
